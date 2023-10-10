@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Page</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+        }
+
+        h1 {
+            color: rgb(23, 1, 1);
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        #logoutFeedback {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Logout Page</h1>
+
+        <!-- Feedback message container -->
+        <div id="logoutFeedback" style="color: green;"></div>
+    </div>
+
+    <script>
+        // Check if the user is logged out successfully (replace this with your actual logic)
+        const logoutSuccess = true; // Change this to the actual condition
+
+        // Get the feedback div element
+        const feedbackDiv = document.getElementById("logoutFeedback");
+
+        // Update the feedback message based on the logout status
+        if (logoutSuccess) {
+            feedbackDiv.textContent = "Logout successful. You have been logged out.";
+            feedbackDiv.style.color = "green"; // Optionally, change the color to green for success
+        } else {
+            feedbackDiv.textContent = "Logout failed. Please try again.";
+            feedbackDiv.style.color = "red"; // Optionally, change the color to red for failure
+        }
+    </script>
+</body>
+</html>

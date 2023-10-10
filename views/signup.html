@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+</head>
+<style>
+  body {
+      font-family: Arial, sans-serif;
+  }
+
+  .two {
+      border: 1px solid aqua;
+      padding: 50px;
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #f0f0f0;
+  }
+
+  h1 {
+      color: red;
+      text-align: center;
+  }
+
+  label {
+      font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+
+  input[type="checkbox"] {
+      margin-right: 5px;
+  }
+
+  button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+  }
+
+  button[type="submit"]:hover {
+      background-color: #45a049;
+  }
+  button[type="submit"] {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+</style>
+<body>
+   
+    <form method="POST" action="/signupSubmit">
+        <div class="two" style="border-color:aqua">
+            <h1 style="color: red; ">** User Sign Up**</h1>
+         <label for="name"> NAME : *
+               <input type="text" id="name" name="name" placeholder="enter the name"  required><br>
+             </label> <label for="email">Email : *</label>
+           <input type="email" placeholder="Enter E-Mail" name="email" id="email" required><br><hr>
+           <label for="mobileNo">MOBILE NO : *
+               <input type = "mobileNo" name="mobileNo" id="mobileNo" placeholder="enter mobile number"  required><br>
+             </label>  <label for="password">password : *</label>
+             <input type="password" placeholder="Enter password" name="password" id="password"><hr>
+             <label for="password">confirm password : *</label>
+             <input type="password" placeholder="Re Enter password" name="confirm_password" id="confirm_password"><hr>
+         <label for="dob">Date of Birth : *</label>
+           <input type="date"id="dob" name="dob" required><br><hr>
+           <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+           <p>Accept the Terms & conditions</p>
+           <p>Already have an account? <a href="/login">LogIn</a></p>
+
+        <button type="submit"><span>&#x1F58A;</span>Sign Up</button>
+    </div>
+    </form>
+</body>
+</html>

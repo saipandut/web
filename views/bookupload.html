@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books</title>
+    <link rel="stylesheet" href="book.css">
+</head>
+<body>
+
+    <!-- Form for adding books -->
+    <h1>Add your Book</h1>
+    <form id="bookForm" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <label for="publishedYear">Published Year:</label>
+        <input type="number" id="publishedYear" name="publishedYear" required><br><br>
+
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br><br>
+
+        <label for="photo">Upload Photo:</label>
+        <input type="file" id="photo" name="photo"><br><br>
+
+        <input type="submit" value="Add Book">
+    </form>
+  <!-- Add the Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-storage-compat.js"></script>
+  <script>
+    // Initialize Firebase with your Firebase project configuration
+    const firebaseConfig = {
+apiKey: "AIzaSyC9XSFPplUfO6ha7BGIZZlgsncSDyTQHfs",
+authDomain: "saip-735f1.firebaseapp.com",
+databaseURL: "https://saip-735f1-default-rtdb.firebaseio.com",
+projectId: "saip-735f1",
+storageBucket: "saip-735f1.appspot.com",
+messagingSenderId: "592589554248",
+appId: "1:592589554248:web:796ac59a824c5b706d8e7d",
+measurementId: "G-PXVBT6BW87"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the Firebase Realtime Database
+const database = firebase.database();
+
+// Get a reference to Firebase Storage
+const storage = firebase.storage();
+
+// Handle form submission for adding books
+const bookForm = document.getElementById('bookForm');
+
+bookForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Get values from the form
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const publishedYear = parseInt(document.getElementById('publishedYear').value);
+    const contact = document.getElementById('contact').value;
+    const price = parseFloat(document.getElementById('price').value);
+    const photoFile = document.getElementById('photo').files[0]; // Get the selected file
+
+    // Reference to the 'books' node in your database
+    const booksRef = database.ref('books');
+
+    // Push the new book data to Firebase
+    const newBookRef = booksRef.push({
+        title,
+        author,
+        publishedYear,
+        contact,
+        price,
+    });
+
+    // Upload the photo to Firebase Storage
+    const photoRef = storage.ref(`book_photos/${newBookRef.key}/${photoFile.name}`);
+    await photoRef.put(photoFile);
+
+    // Get the download URL of the uploaded photo
+    const photoURL = await photoRef.getDownloadURL();
+
+    // Update the book entry with the photo URL
+    newBookRef.update({ photoURL })
+        .then(() => {
+            alert('Book added successfully.');
+            // Clear form fields
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('publishedYear').value = '';
+            document.getElementById('contact').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('photo').value = ''; // Clear the file input
+        })
+        .catch((error) => {
+            console.error('Error adding book:', error);
+        });
+});
+
+// Handle form submission for searching books
+const searchForm = document.getElementById('searchForm');
+const searchResults = document.getElementById('searchResults');
+
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Get the search title
+    const searchTitle = document.getElementById('searchTitle').value.trim().toLowerCase();
+
+    // Reference to the 'books' node in your database
+    const booksRef = database.ref('books');
+
+    // Clear previous search results
+    searchResults.innerHTML = '';
+
+    // Perform the search based on the title
+    booksRef.orderByChild('title').startAt(searchTitle).endAt(searchTitle + '\uf8ff').on('child_added', (snapshot) => {
+        const book = snapshot.val();
+        displayBook(book);
+    });
+});
+
+// Function to display a book in the search results
+function displayBook(book) {
+    const bookDiv = document.createElement('div');
+    bookDiv.innerHTML = `<strong>Title:</strong> ${book.title}<br><strong>Author:</strong> ${book.author}<br><strong>Published Year:</strong> ${book.publishedYear}<br><strong>Contact:</strong> ${book.contact}<br><strong>Price:</strong> ${book.price}<br><strong>Photo:</strong> <img src="${book.photoURL}" alt="Book Photo" width="500">`;
+    searchResults.appendChild(bookDiv);
+}
+</script>
+
+</body>
+</html>

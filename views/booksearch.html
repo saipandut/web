@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Books by Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        #searchForm {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        #searchTitle {
+            width: 300px;
+            padding: 5px;
+        }
+
+        #searchResults {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .book {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+
+        .book img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+  
+</head>
+<body>
+    <h1>Search Books by Title</h1>
+    <form id="searchForm">
+        <label for="searchTitle">Search by Title:</label>
+        <input type="text" id="searchTitle" name="searchTitle" placeholder="Enter title" required>
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Search Results</h2>
+    <div id="searchResults"></div>
+
+    <!-- Add the Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-storage-compat.js"></script>
+
+    <script>
+        // Initialize Firebase with your Firebase project configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyC9XSFPplUfO6ha7BGIZZlgsncSDyTQHfs",
+  authDomain: "saip-735f1.firebaseapp.com",
+  databaseURL: "https://saip-735f1-default-rtdb.firebaseio.com",
+  projectId: "saip-735f1",
+  storageBucket: "saip-735f1.appspot.com",
+  messagingSenderId: "592589554248",
+  appId: "1:592589554248:web:796ac59a824c5b706d8e7d",
+  measurementId: "G-PXVBT6BW87"
+};
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Firebase Realtime Database
+        const database = firebase.database();
+
+        // Handle form submission for searching books
+        const searchForm = document.getElementById('searchForm');
+        const searchResults = document.getElementById('searchResults');
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get the search title
+            const searchTitle = document.getElementById('searchTitle').value.trim().toLowerCase();
+
+            // Reference to the 'books' node in your database
+            const booksRef = database.ref('books');
+
+            // Clear previous search results
+            searchResults.innerHTML = '';
+
+            // Perform the search based on the title
+            booksRef.orderByChild('title').startAt(searchTitle).endAt(searchTitle + '\uf8ff').on('child_added', (snapshot) => {
+                const book = snapshot.val();
+                displayBook(book);
+            });
+        });
+
+        // Function to display a book in the search results
+        function displayBook(book) {
+            const bookDiv = document.createElement('div');
+            bookDiv.innerHTML = `<strong>Title:</strong> ${book.title}<br><strong>Author:</strong> ${book.author}<br><strong>Published Year:</strong> ${book.publishedYear}<br><strong>Contact:</strong> ${book.contact}<br><strong>Price:</strong> ${book.price}<br><strong>Photo:</strong> <img src="${book.photoURL}" alt="Book Photo" width="500">`;
+            searchResults.appendChild(bookDiv);
+        }
+    </script>
+</body>
+</html>

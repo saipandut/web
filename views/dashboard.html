@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Dashboard</title>
+    <style>
+/* Style for the body */
+/* Style for the body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for the navigation container */
+.navigation {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border: 1px solid #ccc; /* Add a border */
+}
+
+/* Style for the headings */
+h1 {
+    color: rgb(249, 6, 6);
+}
+
+/* Style for the scrolling text */
+.scrolling-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Style for the links */
+a {
+    text-decoration: none;
+    color: white;
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px solid #333; /* Add a border */
+}
+
+/* Style for the icons in links */
+a span {
+    margin-right: 5px;
+}
+
+/* Style for the two panels */
+.two {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+/* Style for the left panel */
+.left-panel {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Add a border */
+}
+
+/* Style for the right panel */
+.right-panel {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+    margin-left: 10px;
+    border: 1px solid #ccc; /* Add a border */
+}
+
+/* Style for the bottom links */
+.bottom-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Style for the logout link */
+.bottom-links a {
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid #333; /* Add a border */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <h1>Welcome to the Dashboard</h1>
+        <h3 class="scrolling-text">You can upload your old book or get an old book by searching on my website. <span>&#x1F91D;</span></h3>
+        <br>
+        <a href="/home"><span>&#x1F3E0;</span>Home</a>
+        <a href="/about"><span>&#x2139;</span> About</a>
+        <a href="/contact"><span>&#x1F4DE;</span>Contact</a>
+    </div>
+
+    <div class="two">
+        <div class="left-panel">
+            <h1>Add Your Book</h1>
+            <br>
+            <a href="/bookupload">UPLOAD</a>
+        </div>
+        <div class="right-panel">
+            <h1>Book Search</h1>
+            <br>
+            <a href="/booksearch">SEARCH</a>
+        </div>
+    </div>
+
+    <div class="bottom-links">
+        <a href="/logout"><span>&#x1F6AA;</span>Logout</a>
+    </div>
+</body>
+</html>
