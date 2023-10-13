@@ -8,6 +8,11 @@
 <style>
   body {
       font-family: Arial, sans-serif;
+      background-image: url('images/book14.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
   }
 
   .two {
@@ -71,15 +76,15 @@
     <form method="POST" action="/signupSubmit">
         <div class="two" style="border-color:aqua">
             <h1 style="color: red; ">** User Sign Up**</h1>
-         <label for="name"> NAME : *
+         <label for="name"> Name : *
                <input type="text" id="name" name="name" placeholder="enter the name"  required><br>
              </label> <label for="email">Email : *</label>
            <input type="email" placeholder="Enter E-Mail" name="email" id="email" required><br><hr>
-           <label for="mobileNo">MOBILE NO : *
-               <input type = "mobileNo" name="mobileNo" id="mobileNo" placeholder="enter mobile number"  required><br>
-             </label>  <label for="password">password : *</label>
+           <label for="mobileNo">Mobile No : *
+               <input type = "mobileNo" name="mobileNo" id="mobileNo" placeholder="enter mobile number"  required><br><hr>
+             </label>  <label for="password">Password : *</label>
              <input type="password" placeholder="Enter password" name="password" id="password"><hr>
-             <label for="password">confirm password : *</label>
+             <label for="password">Confirm Password : *</label>
              <input type="password" placeholder="Re Enter password" name="confirm_password" id="confirm_password"><hr>
          <label for="dob">Date of Birth : *</label>
            <input type="date"id="dob" name="dob" required><br><hr>

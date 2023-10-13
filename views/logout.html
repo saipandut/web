@@ -8,6 +8,11 @@
         body {
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            background-image: url('images/book7.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            text-align: center;
+            padding: 20px;
         }
 
         .container {
@@ -56,6 +61,11 @@
             feedbackDiv.textContent = "Logout failed. Please try again.";
             feedbackDiv.style.color = "red"; // Optionally, change the color to red for failure
         }
+
+        // Add a "Thank You" message
+        const thankYouMessage = document.createElement("p");
+        thankYouMessage.textContent = "Thank you for using our service!";
+        feedbackDiv.appendChild(thankYouMessage);
     </script>
 </body>
 </html>
