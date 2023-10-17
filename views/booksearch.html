@@ -88,10 +88,36 @@ z    padding: 20px;
         img {
             max-width: 100%;
         }
+        header {
+    background-color: #0a1417;
+    color: white;
+    padding: 10px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;}
+.navigation {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border: 1px solid #ccc; /* Add a border */
+}
     </style>
   
 </head>
 <body>
+
+    <div class="navigation">
+        <header>
+            <nav>
+                <a href="/home">Home</a>
+                <a href="/dashboard">Dashboard</a>
+            </nav>
+        </header>
+    </div>
     <h1 style="color: rgb(242, 6, 246);">Search Books by Title</h1>
     <form id="searchForm">
         <label for="searchTitle">Search by Title:</label>
@@ -150,7 +176,7 @@ z    padding: 20px;
         // Function to display a book in the search results
         function displayBook(book) {
             const bookDiv = document.createElement('div');
-            bookDiv.innerHTML = `<strong>Title:</strong> ${book.title}<br><strong>Author:</strong> ${book.author}<br><strong>Published Year:</strong> ${book.publishedYear}<br><strong>Contact:</strong> ${book.contact}<br><strong>Price:</strong> ${book.price}<br><strong>Photo:</strong> <img src="${book.photoURL}" alt="Book Photo" width="500">`;
+            bookDiv.innerHTML = `<strong>Title:</strong> ${book.title}<br><strong>Author:</strong> ${book.author}<br><strong>Published Year:</strong> ${book.publishedYear}<br><strong>Contact:</strong> ${book.contact}<br><strong>Price:</strong> ${book.price}<br><strong>Photo:</strong> <img src="${book.photoURL}" alt="Book Photo" width="150">`;
             searchResults.appendChild(bookDiv);
         }
     </script>

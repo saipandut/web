@@ -31,7 +31,7 @@ app.get("/signup",function(req,res){
 });
 
 
-/* app.post("/signupSubmit",function(req,res){
+/* app.get("/signupSubmit",function(req,res){
     console.log(req.body.name);
    
     db.collection("EntriesList").add({
@@ -46,54 +46,66 @@ app.get("/signup",function(req,res){
 });
 */
 
-app.post("/signupSubmit", async function (req, res) {
+app.post('/signupSubmit', async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const plainPassword = req.body.password; // Get the plain text password from the request body
-
-    // Hash the password using bcrypt
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-
     const mobileNo = req.body.mobileNo;
     const dob = req.body.dob;
-
-    // Check if the email already exists in the database
-    const emailExists = await checkIfEmailExists(email);
-
-    if (emailExists) {
+  
+    try {
+      // Input Validation: Ensure all required fields are present
+      if (!name || !email || !plainPassword || !mobileNo || !dob) {
+        return res.status(400).send('All fields are required.');
+      }
+  
+      // Password Requirements: Check length and characters
+      if (plainPassword.length < 8) {
+        return res.status(400).send('Password must be at least 8 characters long.');
+      }
+  
+      if (!/[A-Z]/.test(plainPassword) || !/[a-z]/.test(plainPassword) || !/[0-9]/.test(plainPassword) || !/[!@#$%^&*]/.test(plainPassword)) {
+        return res.status(400).send('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
+      }
+  
+      // Hash the password using bcrypt
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+  
+      // Check if the email already exists in the database
+      const emailExists = await checkIfEmailExists(email);
+  
+      if (emailExists) {
         // Handle the case where the email is already registered
-        res.send("Email already registered. Please use a different email.");
-    } else {
-        // Store the hashed password in Firestore
-        db.collection("EntriesList")
-            .add({
-                name: name,
-                email: email,
-                password: hashedPassword, // Store the hashed password
-                mobileNo: mobileNo,
-                dob: dob,
-            })
-            .then(() => {
-                res.redirect(`/login`);
-            })
-            .catch((error) => {
-                console.error("Error adding document to Firestore:", error);
-                res.send("An error occurred. Please try again.");
-            });
+        return res.status(409).send('Email already registered. Please use a different email.');
+      }
+  
+      // Store the hashed password in Firestore
+      await db.collection('EntriesList').add({
+        name: name,
+        email: email,
+        password: hashedPassword, // Store the hashed password
+        mobileNo: mobileNo,
+        dob: dob,
+      });
+  
+      res.redirect('/login');
+    } catch (error) {
+      console.error('Error in user registration:', error);
+      res.status(500).send('An error occurred. Please try again.');
     }
-});
-
-// Function to check if the email already exists in the database
-async function checkIfEmailExists(email) {
-    const query = db.collection("EntriesList").where("email", "==", email).limit(1);
+  });
+  
+  // Function to check if the email already exists in the database
+  async function checkIfEmailExists(email) {
+    const query = db.collection('EntriesList').where('email', '==', email).limit(1);
     const snapshot = await query.get();
     return !snapshot.empty;
-}
-
+  }
+  
 
 /*
-app.post("/signinSubmit",function(req,res){
+app.get("/signinSubmit",function(req,res){
    
     db.collection("EntriesList")
     .where("email", "==", req.body.email)
@@ -186,13 +198,7 @@ app.get("/back", function(req, res) {
     res.redirect("/dashboard"); // Redirect to the dashboard route
 });
 
-
-app.get("/forgot-password", (req, res) => {
-    res.sendFile(__dirname + "/views/" + "forgot-password.html");
-  });
-  const crypto = require("crypto");
-
-  app.post('/forgot-password-submit', async function (req, res) {
+app.post('/forgot-password-submit', async function (req, res) {
     const email = req.body.email;
 
     try {
@@ -200,7 +206,7 @@ app.get("/forgot-password", (req, res) => {
         if (typeof email !== 'undefined') {
             
             // Find the user with the given email address
-            const userQuery = await db.collection('EntriesList').where('resetToken', '==', token).limit(1).get();
+            const userQuery = await db.collection('EntriesList').where('email', '==', email).limit(1).get();
 
             if (!userQuery.empty) {
                 const userDoc = userQuery.docs[0];
@@ -241,7 +247,6 @@ app.get("/forgot-password", (req, res) => {
     }
 });
 
-  
 app.post('/reset-password-submit', async function (req, res) {
     const token = req.body.token;
     const newPassword = req.body.newPassword;
@@ -290,6 +295,7 @@ app.post('/reset-password-submit', async function (req, res) {
         return res.status(500).send('An error occurred. Please try again.');
     }
 });
+
 
 
 

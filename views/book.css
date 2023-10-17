@@ -15,6 +15,24 @@ h1, h2 {
     text-align: center;
     color: #fa9702;
 }
+.navigation {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border: 1px solid #ccc; /* Add a border */
+}
+header {
+    background-color: #4bbfdc;
+    color: white;
+    padding: 10px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+background-color: #2e0bdc;}
 
 form {
     width: 80%;
